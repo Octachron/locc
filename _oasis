@@ -1,0 +1,14 @@
+OASISFormat: 0.4
+Name:        alien-comments-detector
+Version:     0.1
+Synopsis:    Foreign comment detector for ocaml
+Authors:     octachron
+License:     GPL-3
+Plugins:     META (0.4), DevFiles (0.4)
+
+Executable "alien-detector"
+  Path:       src
+  BuildTools: ocamlbuild
+  MainIs:     alien.ml
+  BuildDepends: ocaml-aspell, fileutils
+  CompiledObject: best
