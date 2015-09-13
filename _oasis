@@ -1,14 +1,64 @@
 OASISFormat: 0.4
-Name:        alien-comments-detector
+Name:        locc
 Version:     0.1
-Synopsis:    Foreign comment detector for ocaml
+Synopsis:    Linguistic Ocaml Comment Classifier
 Authors:     octachron
 License:     GPL-3
 Plugins:     META (0.4), DevFiles (0.4)
 
-Executable "alien-detector"
+Executable "locc"
   Path:       src
   BuildTools: ocamlbuild
-  MainIs:     alien.ml
-  BuildDepends: ocaml-aspell, fileutils
+  MainIs:     locc.ml
+  BuildDepends: ocaml-aspell, fileutils, cmdliner
   CompiledObject: best
+
+
+Executable "lexer"
+  Path:       tests
+  BuildTools: ocamlbuild
+  MainIs:     lexer.ml
+  BuildDepends: ocaml-aspell, fileutils, cmdliner
+  CompiledObject: best
+  Install: false
+
+
+Executable "parser"
+  Path:       tests
+  BuildTools: ocamlbuild
+  MainIs:     parser.ml
+  BuildDepends: ocaml-aspell, fileutils, cmdliner
+  CompiledObject: best
+  Install: false
+
+Executable "crawler"
+  Path:       tests
+  BuildTools: ocamlbuild
+  MainIs:     crawler.ml
+  BuildDepends: ocaml-aspell, fileutils, cmdliner
+  CompiledObject: best
+  Install: false
+
+Executable "classifier"
+  Path:       tests
+  BuildTools: ocamlbuild
+  MainIs:     classifier.ml
+  BuildDepends: ocaml-aspell, fileutils, cmdliner
+  CompiledObject: best
+  Install: false
+
+Executable "analyzer"
+  Path:       tests
+  BuildTools: ocamlbuild
+  MainIs:     analyzer.ml
+  BuildDepends: ocaml-aspell, fileutils, cmdliner
+  CompiledObject: best
+  Install: false
+
+Executable "tree"
+  Path:       tests
+  BuildTools: ocamlbuild
+  MainIs:     tree.ml
+  BuildDepends: ocaml-aspell, fileutils, cmdliner
+  CompiledObject: best
+  Install: false

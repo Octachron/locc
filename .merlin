@@ -1,4 +1,6 @@
 S src
+S tests
 B _build/*
 PKG fileutils
 PKG ocaml-aspell
+PKG cmdliner

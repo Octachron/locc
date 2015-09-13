@@ -1,9 +1,12 @@
 %{
 open Printers
 let id x = x
-let cons x l = x :: l  
 
 open Ast
+let cons x l = x :: l 
+let word_cons x l = (Word x) :: l  
+let alien_cons x l = (Alien x) :: l
+
 
 %}
 
@@ -13,6 +16,7 @@ open Ast
 %token EOF
 %token <string> WORD
 %token <string> NONWORD
+%token STRING
 
 %type <Ast.comment list> file
 %start file
@@ -28,9 +32,11 @@ text:
   | text elt { $2 $1 }
 ;
 elt:
-  | WORD {fun l-> l }
-  | NONWORD { fun l -> l }
-  | comment {fun l -> $1 :: l }
+  | CLOSE { id }
+  | WORD { id }
+  | NONWORD { id }
+  | STRING { id }
+  | comment { cons $1 }
 ;
 open_close:
   | OPEN CLOSE {()}
@@ -38,19 +44,24 @@ open_close:
 comment:
   open_close {
     { text =  [] ;
-      loc = { start = $startpos; end_ = $endpos }
+      loc = (
+      Loc.create_conv [ $startpos; $endpos ]
+    )
     }
 
   }
 | OPEN comment_text CLOSE {
   {
-    text = (List.rev @@ ("*" ^ ")") :: $2 ) ;
-    loc = { start = $startpos; end_ = $endpos }
+    text = (List.rev  $2 ) ;
+    loc = (
+      Loc.create_conv [ $startpos; $endpos ]
+    )
   }
-}
+  }
+
 ;
 comment_text:
-  | elt_comment                     { $1 [ "(" ^ "*" ] }
+  | elt_comment                     { $1 [] }
   | comment_text elt_comment   { $2 $1 }
 ;
 
@@ -59,5 +70,7 @@ elt_comment:
   | word    { $1 }
 ;
 word:
-  | WORD { fun l -> $1 :: l }
-  | NONWORD { fun l -> $1 :: l } 
+  | STRING { id }
+  | WORD { word_cons $1 }
+  | NONWORD { alien_cons $1 } 
+;
