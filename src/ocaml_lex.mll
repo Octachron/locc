@@ -28,7 +28,8 @@ let filter_par = function
   | s ->
     let n = String.length s in
     match n with
-    | 2 | 1 | 0 -> NONWORD s
+    | 1 -> WORD s
+    | 2 | 0 -> NONWORD s
     | 3 ->
       ( match s.[0], s.[1], s.[2] with
         | '(', '*', _ -> OPEN
@@ -91,6 +92,7 @@ rule lex =
              | start_operator in_operator*     { NONWORD (Lexing.lexeme lexbuf) }
              | punctuation+                    { NONWORD (Lexing.lexeme lexbuf) } 
              | '"'                             { string lexbuf }
+             | num+                            { WORD (Lexing.lexeme lexbuf) }
              | letter+                         { WORD (Lexing.lexeme lexbuf) }
              | start_alphanum alphanum*
                { NONWORD (String.trim @@ Lexing.lexeme lexbuf) }
